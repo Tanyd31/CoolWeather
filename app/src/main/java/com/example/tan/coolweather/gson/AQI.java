@@ -1,4 +1,4 @@
-package com.coolweather.android.gson;
+package com.example.tan.coolweather.gson;
 
 public class AQI {
 
