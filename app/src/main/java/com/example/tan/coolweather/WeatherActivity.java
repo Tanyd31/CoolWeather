@@ -25,6 +25,8 @@ import com.example.tan.coolweather.gson.Weather;
 import com.example.tan.coolweather.util.HttpUtil;
 import com.example.tan.coolweather.util.Utility;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.security.PublicKey;
 
@@ -32,6 +34,8 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.internal.Util;
+
+import static com.example.tan.coolweather.R.id.test_text;
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -65,11 +69,11 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView sportText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-
         // 解决状态栏和背景融合
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
@@ -79,14 +83,15 @@ public class WeatherActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
-        homeButton = (Button) findViewById(R.id.nav_button);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        homeButton = findViewById(R.id.nav_button);
+        drawerLayout = findViewById(R.id.drawer_layout);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
 
         imageView = (ImageView) findViewById(R.id.bing_pic_img);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
@@ -107,7 +112,7 @@ public class WeatherActivity extends AppCompatActivity {
         String bingPic = preferences.getString("bing_pic", null);
         if (bingPic != null) {
             Glide.with(this).load(bingPic).into(imageView);
-        }else{
+        } else {
             loadBingPic();
         }
 
@@ -117,7 +122,7 @@ public class WeatherActivity extends AppCompatActivity {
             Weather weather = Utility.handleWeatherResponse(weatherString);
             weatherId = weather.basic.weatherId;
             showWeatherInfo(weather);
-        }else {
+        } else {
             weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(weatherId);
@@ -188,7 +193,7 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString("weather", responseText);
                             editor.apply();
                             showWeatherInfo(weather);
-                        }else {
+                        } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败",
                                     Toast.LENGTH_SHORT).show();
                         }
